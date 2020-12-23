@@ -74,7 +74,6 @@ func buildIptablesClient(ctx context.Context, pid uint32) iptablesClient {
 
 func (iptables *iptablesClient) setIptablesChains(chains []*pb.Chain, withoutNS bool) error {
 	for _, chain := range chains {
-		fmt.Println("set chain")
 		err := iptables.setIptablesChain(chain, withoutNS)
 		if err != nil {
 			return err
@@ -116,7 +115,6 @@ func (iptables *iptablesClient) setIptablesChain(chain *pb.Chain, withoutNS bool
 			chain.Name, ipset, matchPart, chain.Target, protocolAndPort)))
 	}
 
-	fmt.Printf("%s rules: %v", chain.Name, rules)
 	err := iptables.createNewChain(&iptablesChain{
 		Name:  chain.Name,
 		Rules: rules,

@@ -187,8 +187,7 @@ func (s *DaemonServer) setFilterTcs(
 	// and iptables rules are recovered by previous call too, so there is no need
 	// to remove these rules here
 	chains := []*pb.Chain{}
-	for key, tcs := range filterTc {
-		fmt.Println(key)
+	for _, tcs := range filterTc {
 		for i, tc := range tcs {
 			parentArg := fmt.Sprintf("parent %d:%d", parent, index+4)
 			if i > 0 {
@@ -238,7 +237,7 @@ func (s *DaemonServer) setFilterTcs(
 
 		index++
 	}
-	fmt.Println("start to set chain")
+
 	if err := iptablesCli.setIptablesChains(chains, withoutNS); err != nil {
 		log.Error(err, "error while setting iptables")
 		return err
