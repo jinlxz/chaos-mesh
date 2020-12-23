@@ -187,7 +187,8 @@ func (s *DaemonServer) setFilterTcs(
 	// and iptables rules are recovered by previous call too, so there is no need
 	// to remove these rules here
 	chains := []*pb.Chain{}
-	for _, tcs := range filterTc {
+	for key, tcs := range filterTc {
+		fmt.Println(key)
 		for i, tc := range tcs {
 			parentArg := fmt.Sprintf("parent %d:%d", parent, index+4)
 			if i > 0 {
@@ -237,6 +238,7 @@ func (s *DaemonServer) setFilterTcs(
 
 		index++
 	}
+	fmt.Println("start to set chain")
 	if err := iptablesCli.setIptablesChains(chains, withoutNS); err != nil {
 		log.Error(err, "error while setting iptables")
 		return err
@@ -276,7 +278,6 @@ func (c *tcClient) addTc(device string, parentArg string, handleArg string, tc *
 	log.Info("add tc", "tc", tc)
 
 	if tc.Type == pb.Tc_BANDWIDTH {
-
 		if tc.Tbf == nil {
 			return fmt.Errorf("tbf is nil while type is BANDWIDTH")
 		}
@@ -286,7 +287,6 @@ func (c *tcClient) addTc(device string, parentArg string, handleArg string, tc *
 		}
 
 	} else if tc.Type == pb.Tc_NETEM {
-
 		if tc.Netem == nil {
 			return fmt.Errorf("netem is nil while type is NETEM")
 		}
