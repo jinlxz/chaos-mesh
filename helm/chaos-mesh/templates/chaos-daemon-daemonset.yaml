@@ -23,8 +23,7 @@ spec:
         app.kubernetes.io/component: chaos-daemon
     {{- with .Values.chaosDaemon.podAnnotations }}
       annotations:
-{{ 
-. | indent 8 }}
+{{ toYaml . | indent 8 }}
     {{- end }}
     spec:
   {{- if .Values.chaosDaemon.hostNetwork }}
