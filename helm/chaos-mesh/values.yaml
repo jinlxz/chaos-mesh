@@ -112,6 +112,7 @@ chaosDaemon:
     #   memory: 512Mi
 
   tolerations: []
+  nodeSelector: {}
 
 dashboard:
   create: false
