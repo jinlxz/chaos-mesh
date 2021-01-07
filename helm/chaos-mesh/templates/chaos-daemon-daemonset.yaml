@@ -23,7 +23,8 @@ spec:
         app.kubernetes.io/component: chaos-daemon
     {{- with .Values.chaosDaemon.podAnnotations }}
       annotations:
-{{ toYaml . | indent 8 }}
+{{ 
+. | indent 8 }}
     {{- end }}
     spec:
   {{- if .Values.chaosDaemon.hostNetwork }}
@@ -140,3 +141,7 @@ spec:
           hostPath:
             path: /usr/src
 {{- end }}
+{{- with .Values.chaosDaemon.nodeSelector }}
+      nodeSelector:
+      {{ toYaml . | indent 8 }}
+{{end}}
